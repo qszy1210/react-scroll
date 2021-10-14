@@ -1,26 +1,75 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  useEffect,
+  useState,
+  cloneElement,
+  createRef,
+  Children,
+  forwardRef,
+  useRef,
+  useCallback
+} from "react";
+import "./App.css";
 
-function App() {
+export default function App() {
+  const [text, addText] = useState('文字内容');
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ScrollBar text={text}></ScrollBar>
+      <button onClick={()=>addText(text+"文字内容文字内容")}>add content</button>
     </div>
   );
 }
 
-export default App;
+function ScrollBar(props: {text: string}) {
+  const [scrollTop, setScrollTop] = useState(0);
+  const [isScrolling, setIsScrolling] = useState(false);
+
+  const onScroll = useCallback((e) => {
+    console.log();
+    console.log("scroll ref");
+    // const top = e.target.scrollTop;
+    console.log(e.target)
+    const top = getTop(e.target.scrollTop, 500, 300, 10);
+    console.log("top is", top);
+    setScrollTop(top);
+  }, []);
+
+  const childRef = useRef(null);
+  useEffect(function () {
+    console.log(childRef.current);
+    window.addEventListener("scroll", onScroll, true);
+  }, []);
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      console.log("scrolling");
+    });
+  }, []);
+  useEffect(() => {
+    console.log("top is", scrollTop);
+  }, [scrollTop]);
+
+  //const childElement = Children.only(props.children);
+  return (
+    <div className="bar-container">
+      {/* {cloneElement(childElement, {
+        ref: childRef
+      })} */}
+      <div className="content-wrapper" ref={childRef}>
+        <div className="content" style={{"transform": `translate(0, ${scrollTop})`}}>
+          {props.text}
+        </div>
+      </div>
+      {
+        isScrolling?
+        <div className="bar">
+          <div className="inner-bar" style={{ top: scrollTop }}></div>
+        </div>:null
+      }
+    </div>
+  );
+}
+
+
+function getTop(currentTop: number, allHeight: number, barContainerHeight: number, barHeight: number): number{
+  return currentTop/allHeight*barContainerHeight
+}
