@@ -15,7 +15,7 @@ export default function App() {
   return (
     <div className="App">
       <ScrollBar text={text}></ScrollBar>
-      <button onClick={()=>addText(text+"文字内容文字内容")}>add content</button>
+      <button onClick={()=>addText(text+"文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容")}>add content</button>
     </div>
   );
 }
