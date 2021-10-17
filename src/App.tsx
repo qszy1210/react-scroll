@@ -9,18 +9,32 @@ import {
   useCallback
 } from "react";
 import "./App.css";
+import SBar from './components/ScrollBar';
 
 export default function App() {
   const [text, addText] = useState('文字内容');
+  const [arr, setArr] = useState([<p>123</p>]);
   return (
     <div className="App">
-      <ScrollBar text={text}></ScrollBar>
-      <button onClick={()=>addText(text+"文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容")}>add content</button>
+      {/* <ScrollBar text={text}></ScrollBar>
+      <button onClick={()=>addText(text+"文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容")}>add content</button> */}
+      <div>
+        <SBar>
+          {arr}
+        </SBar>
+      </div>
+      <div>
+
+        <button onClick={() => {
+          const newArr = [...arr, <p>123</p>]
+          setArr(newArr)
+        }}>add</button>
+      </div>
     </div>
   );
 }
 
-function ScrollBar(props: {text: string}) {
+function ScrollBar(props: { text: string }) {
   const [scrollTop, setScrollTop] = useState(0);
   const [isScrolling, setIsScrolling] = useState(false);
 
@@ -55,21 +69,21 @@ function ScrollBar(props: {text: string}) {
         ref: childRef
       })} */}
       <div className="content-wrapper" ref={childRef}>
-        <div className="content" style={{"transform": `translate(0, ${scrollTop})`}}>
+        <div className="content" style={{ "transform": `translate(0, ${scrollTop})` }}>
           {props.text}
         </div>
       </div>
       {
-        isScrolling?
-        <div className="bar">
-          <div className="inner-bar" style={{ top: scrollTop }}></div>
-        </div>:null
+        isScrolling ?
+          <div className="bar">
+            <div className="inner-bar" style={{ top: scrollTop }}></div>
+          </div> : null
       }
     </div>
   );
 }
 
 
-function getTop(currentTop: number, allHeight: number, barContainerHeight: number, barHeight: number): number{
-  return currentTop/allHeight*barContainerHeight
+function getTop(currentTop: number, allHeight: number, barContainerHeight: number, barHeight: number): number {
+  return currentTop / allHeight * barContainerHeight
 }

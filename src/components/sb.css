@@ -1,0 +1,30 @@
+.sb-container{
+    border: 1px solid black;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+    margin: auto;
+}
+
+.sb-view {
+ position: absolute;
+ inset: 0;
+ overflow:scroll;
+ margin-right: -15px;
+ margin-bottom: -15px;
+}
+
+.sb-bar-container {
+    position: absolute;
+    right: 0;
+    height:100%;
+    width:15px;
+    background-color: gray;
+}
+.sb-bar {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: red;
+}
