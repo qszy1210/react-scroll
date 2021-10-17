@@ -9,10 +9,14 @@ export default (props: ISBar) => {
     const containerRef = React.useRef(null);
     const viewRef = React.useRef<HTMLDivElement>(null);
     const [top, setTop] = React.useState(0);
+    const [isShow, setIsShow] = React.useState(false);
 
     const scrollHandler = (e: any) => {
         const top = e.target.scrollTop;
         setTop(top);
+        if (!isShow) {
+            setIsShow(true);
+        }
     }
     useEffect(() =>{
         if (viewRef.current) {
@@ -24,7 +28,10 @@ export default (props: ISBar) => {
         <div ref={viewRef} className="sb-view">
             {children}
         </div>
-        <Bar top={top}></Bar>
+        {isShow ?
+            <Bar top={top}></Bar> :
+            null
+        }
     </div>
     return null
 }
